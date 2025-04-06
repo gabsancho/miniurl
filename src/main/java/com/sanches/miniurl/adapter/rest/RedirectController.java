@@ -1,4 +1,4 @@
-package com.sanches.miniurl.redirect;
+package com.sanches.miniurl.adapter.rest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,13 +9,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class RedirectController {
-
-    @GetMapping("/to")
-    public String toMapping() {
-//        return "redirect:/";
-        return "hi there\n";
-    }
-
     @GetMapping("/1")
     public ResponseEntity<String> option1() {
         HttpHeaders headers = new HttpHeaders();
