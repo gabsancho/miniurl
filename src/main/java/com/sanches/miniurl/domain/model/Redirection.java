@@ -1,10 +1,12 @@
 package com.sanches.miniurl.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Redirection {
     private String origin;
     private String target;
