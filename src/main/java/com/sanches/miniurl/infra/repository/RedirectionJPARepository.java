@@ -32,4 +32,15 @@ public class RedirectionJPARepository implements RedirectionRepository {
         return repository.findByOrigin(origin)
                 .map(RedirectionMapper::toRedirection);
     }
+
+    @Override
+    public Optional<Redirection> findByTarget(String target) {
+        return repository.findByTarget(target)
+                .map(RedirectionMapper::toRedirection);
+    }
+
+    @Override
+    public long count() {
+        return repository.count();
+    }
 }

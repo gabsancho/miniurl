@@ -8,4 +8,6 @@ public interface RedirectionRepository {
     Redirection save(Redirection redirection);
     Optional<Redirection> findById(Long id);
     Optional<Redirection> findByOrigin(String origin);
+    Optional<Redirection> findByTarget(String redirectionId);
+    long count();
 }
