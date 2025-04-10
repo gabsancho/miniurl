@@ -25,11 +25,11 @@ public class RedirectionService {
             return maybeRedirection.get();
         }
 
-        Redirection redirection = new Redirection("http://localhost:8080/" + redirectionRepository.count(), target);
+        Redirection redirection = new Redirection(String.valueOf(redirectionRepository.count()), target);
         return redirectionRepository.save(redirection);
     }
 
-    public Redirection findRedirection(String origin) {
-        return redirectionRepository.findByOrigin(origin).orElse(null);
+    public Redirection findRedirection(String code) {
+        return redirectionRepository.findByOrigin(code).orElse(null);
     }
 }

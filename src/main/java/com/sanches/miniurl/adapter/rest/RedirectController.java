@@ -1,18 +1,21 @@
 package com.sanches.miniurl.adapter.rest;
 
+import com.sanches.miniurl.adapter.model.RegisterInput;
 import com.sanches.miniurl.application.GetRedirection;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
 public class RedirectController {
+    private static final Log log = LogFactory.getLog(RedirectController.class);
     private final GetRedirection getRedirection;
 
     @GetMapping("/1")
@@ -34,11 +37,23 @@ public class RedirectController {
         return redirect;
     }
 
-    @GetMapping("/re/{suffix}")
-    public RedirectView option4(@PathVariable String suffix) {
-        String target = getRedirection.execute("http://localhost:8080/" + suffix);
+    @GetMapping("/re/{code}")
+    public RedirectView option4(@PathVariable String code) {
+        String target = getRedirection.execute(code);
         RedirectView redirect = new RedirectView(target);
         redirect.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         return redirect;
+    }
+
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String register(@RequestBody RegisterInput input) {
+        log.info("Registering redirect to " + input.target());
+        return "";
+    }
+
+    @PostMapping(value = "/register2", consumes = MediaType.TEXT_PLAIN_VALUE)
+    public String register(@RequestBody String target) {
+        log.info("Registering redirect to " + target);
+        return "";
     }
 }

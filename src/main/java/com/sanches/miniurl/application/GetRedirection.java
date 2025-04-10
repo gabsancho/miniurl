@@ -13,15 +13,11 @@ public class GetRedirection {
         this.redirectionService = new RedirectionService(redirectionRepository);
     }
 
-    public String execute(String origin) {
-        if (origin == null) {
-            throw new IllegalArgumentException("Origin cannot be null");
-        }
+    public String execute(String code) {
+        if (code == null) throw new IllegalArgumentException("Code cannot be null");
 
-        Redirection redirection = redirectionService.findRedirection(origin);
-        if (redirection == null) {
-            throw new RuntimeException("Could not find redirection with origin " + origin);
-        }
+        Redirection redirection = redirectionService.findRedirection(code);
+        if (redirection == null) throw new RuntimeException("Could not find redirection with code " + code);
 
         return redirection.getTarget();
     }
