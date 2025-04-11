@@ -8,25 +8,22 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class RedirectionService {
+    private static final int DEFAULT_SIZE = 6;
     private final RedirectionRepository redirectionRepository;
 
-    public boolean redirectionExists(String origin) {
-        return redirectionRepository.findByOrigin(origin).isPresent();
-    }
-
     public Redirection register(String target) {
-        /* TODO:
-            1) remove hardcoded host
-            2) add strategy to shortened link generation
-            3) validate conflicts
-        */
         Optional<Redirection> maybeRedirection = redirectionRepository.findByTarget(target);
         if (maybeRedirection.isPresent()) {
             return maybeRedirection.get();
         }
 
-        Redirection redirection = new Redirection(String.valueOf(redirectionRepository.count()), target);
-        return redirectionRepository.save(redirection);
+        String origin;
+        do {
+            origin = OriginGenerator.generate(DEFAULT_SIZE);
+        }
+        while (redirectionRepository.findByOrigin(origin).isPresent());
+
+        return redirectionRepository.save(new Redirection(origin, target));
     }
 
     public Redirection findRedirection(String code) {
