@@ -19,6 +19,6 @@ public class GetRedirection {
         Redirection redirection = redirectionService.findRedirection(code);
         if (redirection == null) throw new RuntimeException("Could not find redirection with code " + code);
 
-        return redirection.getTarget();
+        return redirection.target();
     }
 }

@@ -12,6 +12,6 @@ public final class RedirectionMapper {
     }
 
     public static RedirectionEntity toRedirectionEntity(Redirection redirection) {
-        return new RedirectionEntity(redirection.getOrigin(), redirection.getTarget());
+        return new RedirectionEntity(redirection.origin(), redirection.target());
     }
 }
