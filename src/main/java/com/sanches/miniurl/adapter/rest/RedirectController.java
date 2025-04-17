@@ -19,7 +19,7 @@ public class RedirectController {
     private final GetRedirection getRedirection;
     private final RegisterRedirection registerRedirection;
 
-    @GetMapping("/re/{code}")
+    @GetMapping("/{code}")
     public ResponseEntity<?> option4(@PathVariable String code) {
         try {
             String target = getRedirection.execute(code);

@@ -47,8 +47,11 @@ An alternative is to send a JSON with containing a `target` key, such as:
 
 The server responds with a `code`, that can be used in the browser (or a GET request) to access the original URL.
 ```
-http://localhost:8080/re/{code}
+http://localhost:8080/{code}
 ``` 
+
+## Limits
+Currently, the chosen strategy can generate, optimally, `62^6=56800235584` different 6-chars urls. 
 
 ## Upcoming Features
 

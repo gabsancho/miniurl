@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 
 public final class OriginGenerator {
     private static final String CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static final Long MAX_POSSIBILITIES = 56800235584L;
 
     public static String generate(int size) {
         if (size <= 1) {
