@@ -3,6 +3,7 @@ package com.sanches.miniurl.adapter.rest;
 import com.sanches.miniurl.adapter.model.RegisterInput;
 import com.sanches.miniurl.application.GetRedirection;
 import com.sanches.miniurl.application.RegisterRedirection;
+import com.sanches.miniurl.domain.exception.RedirectionGenerationException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +37,7 @@ public class RedirectController {
 
     private String registerBase(String target) {
         log.info("Registering redirect to " + target);
-        return registerRedirection.registerRedirection(target).target();
+        return registerRedirection.registerRedirection(target).origin();
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -47,5 +48,11 @@ public class RedirectController {
     @PostMapping(value = "/register", consumes = MediaType.TEXT_PLAIN_VALUE)
     public String register(@RequestBody String target) {
         return registerBase(target);
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(RedirectionGenerationException.class)
+    public void handleRedirectionGenerationException(RedirectionGenerationException e) {
+        log.error(e.getMessage(), e);
     }
 }
