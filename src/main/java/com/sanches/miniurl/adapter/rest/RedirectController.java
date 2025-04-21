@@ -50,6 +50,11 @@ public class RedirectController {
         return registerBase(target);
     }
 
+    @DeleteMapping("/{code}")
+    public String delete(@PathVariable String code) {
+        return "Deleted!";
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RedirectionGenerationException.class)
     public void handleRedirectionGenerationException(RedirectionGenerationException e) {

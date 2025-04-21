@@ -2,12 +2,14 @@ package com.sanches.miniurl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, UserDetailsServiceAutoConfiguration.class})
 public class MiniurlApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MiniurlApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MiniurlApplication.class, args);
+    }
 
 }
