@@ -33,8 +33,13 @@ This project is intended for learning purposes only!
 3. Run the application:
     ```bash
     ./gradlew bootRun
+    ``` 
+    or
+    ```bash
+   ./gradlew build
+    java -jar ./build/libs/<miniurl-VERSION-SNAPSHOT.jar>
     ```
-
+    
 The application will start on http://localhost:8080.
 
 ## Usage
