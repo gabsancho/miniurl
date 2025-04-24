@@ -23,7 +23,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authrz -> authrz
-                        .requestMatchers(HttpMethod.DELETE, "/{code}").authenticated())
+                        .requestMatchers(HttpMethod.DELETE, "/{code}").authenticated()
+                        .anyRequest().permitAll())
                 .addFilterAfter(new ApiTokenFilter(), AnonymousAuthenticationFilter.class);
 
         return http.build();
