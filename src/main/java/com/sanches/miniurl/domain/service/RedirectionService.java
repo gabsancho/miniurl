@@ -5,6 +5,7 @@ import com.sanches.miniurl.domain.model.Redirection;
 import com.sanches.miniurl.domain.repository.RedirectionRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -13,7 +14,7 @@ public class RedirectionService {
     private static final short MAX_RETRIES = 10;
     private final RedirectionRepository redirectionRepository;
 
-    public Redirection register(String target) {
+    public Redirection register(String target, LocalDateTime expiration) {
         Optional<Redirection> maybeRedirection = redirectionRepository.findByTarget(target);
         if (maybeRedirection.isPresent()) {
             return maybeRedirection.get();
@@ -33,6 +34,10 @@ public class RedirectionService {
         while (redirectionRepository.findByOrigin(origin).isPresent());
 
         return redirectionRepository.save(new Redirection(origin, target));
+    }
+
+    public Redirection register(String target) {
+        return register(target, null);
     }
 
     public Redirection findRedirection(String code) {
