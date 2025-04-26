@@ -43,4 +43,8 @@ public class RedirectionService {
     public Redirection findRedirection(String code) {
         return redirectionRepository.findByOrigin(code).orElse(null);
     }
+
+    public void removeExpiredRedirections() {
+        redirectionRepository.deleteByExpirationBefore(LocalDateTime.now());
+    }
 }
