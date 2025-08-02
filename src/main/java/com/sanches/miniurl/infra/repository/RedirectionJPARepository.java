@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Optional;
 
 import static com.sanches.miniurl.infra.mapper.RedirectionMapper.toRedirection;
@@ -42,13 +41,6 @@ public class RedirectionJPARepository implements RedirectionRepository {
                 .map(RedirectionMapper::toRedirection);
     }
 
-    @Override
-    public Collection<Redirection> findAllByExpirationBefore(LocalDateTime expiration) {
-        return repository.findAllByExpirationBefore(expiration).stream()
-                .map(RedirectionMapper::toRedirection)
-                .toList();
-    }
-
     @Transactional
     @Override
     public void deleteByExpirationBefore(LocalDateTime expiration) {
@@ -56,7 +48,7 @@ public class RedirectionJPARepository implements RedirectionRepository {
     }
 
     @Override
-    public long count() {
-        return repository.count();
+    public void deleteByOrigin(String origin) {
+        repository.deleteByOrigin(origin);
     }
 }

@@ -6,13 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Optional;
 
 public interface RedirectionEntityJPARepository extends JpaRepository<RedirectionEntity, Long> {
     Optional<RedirectionEntity> findByOrigin(String origin);
     Optional<RedirectionEntity> findByTarget(String target);
-    Collection<RedirectionEntity> findAllByExpirationBefore(LocalDateTime expiration);
+    void deleteByOrigin(String origin);
 
     @Modifying
     @Query("delete from #{#entityName} re where re.expiration is not null and re.expiration < ?1")

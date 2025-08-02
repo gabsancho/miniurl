@@ -6,7 +6,6 @@ import com.sanches.miniurl.domain.repository.RedirectionRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class RedirectionService {
@@ -15,9 +14,13 @@ public class RedirectionService {
     private final RedirectionRepository redirectionRepository;
 
     public Redirection register(String target, LocalDateTime expiration) {
-        Optional<Redirection> maybeRedirection = redirectionRepository.findByTarget(target);
-        if (maybeRedirection.isPresent()) {
-            return maybeRedirection.get();
+        Redirection redirection = redirectionRepository.findByTarget(target).orElse(null);
+        if (redirection != null) {
+            // to preserve the immutability of objects, remove the old redirection and create a new one
+            if (redirection.isExpired())
+                redirectionRepository.deleteByOrigin(redirection.origin());
+            else
+                return redirection;
         }
 
         short i = 0;
@@ -25,15 +28,12 @@ public class RedirectionService {
         do {
             origin = OriginGenerator.generate(DEFAULT_SIZE);
             if (i++ > MAX_RETRIES) {
-                if (redirectionRepository.count() >= OriginGenerator.MAX_POSSIBILITIES) {
-                    throw new RedirectionGenerationException("Reached maximum number of possible redirections");
-                }
                 throw new RedirectionGenerationException("Generation exceeded maximum of " + MAX_RETRIES + " retries");
             }
         }
         while (redirectionRepository.findByOrigin(origin).isPresent());
 
-        return redirectionRepository.save(new Redirection(origin, target));
+        return redirectionRepository.save(new Redirection(origin, target, expiration));
     }
 
     public Redirection register(String target) {
