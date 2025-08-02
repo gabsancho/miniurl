@@ -11,11 +11,15 @@ public record Redirection(String origin, String target, LocalDateTime expiration
         }
 
         if (expiration != null && expiration.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Expiration should be after now");
+            throw new IllegalArgumentException("Expiration should be after present time");
         }
     }
 
     public Redirection(String origin, String target) {
         this(origin, target, null);
+    }
+
+    public boolean isExpired() {
+        return expiration() != null && LocalDateTime.now().isAfter(expiration);
     }
 }
