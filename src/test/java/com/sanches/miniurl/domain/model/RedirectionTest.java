@@ -4,6 +4,8 @@ package com.sanches.miniurl.domain.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 public class RedirectionTest {
     @Test
     public void canCreateRedirection() {
@@ -30,5 +32,10 @@ public class RedirectionTest {
     @Test
     public void cannotCreateRedirectionWithSameOriginAndTarget() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new Redirection("something", "something"));
+    }
+
+    @Test
+    public void cannotCreateRedirectionWithPastExpiration() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new Redirection("something", "something else", LocalDateTime.now().minusNanos(1L)));
     }
 }
